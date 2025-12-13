@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+
 export default function LoginPage() {
     const router=useRouter()
     const [email,setEmail]=useState("");
@@ -24,6 +25,9 @@ export default function LoginPage() {
         setError(data.message || "Invalid credentials");
         return;
       }
+      const data = await res.json();
+      localStorage.setItem("token", data.token);
+   
 
       router.push("/dashboard");
     }
