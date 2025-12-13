@@ -10,10 +10,13 @@ export default function SignupPage() {
     const [error,setError]=useState("");
     const handleSubmit=async()=>{
         if(!email.includes('@')){
+
             setError("invalid email")
+            return;
         }
         if(password.length<6){
             setError("invalid password");
+            return ;
         }
         const res=await fetch("/api/auth/signup", {
             method: 'POST', 
@@ -22,6 +25,14 @@ export default function SignupPage() {
             },
             body: JSON.stringify({email,password}), 
         })
+         if (!res.ok) {
+            const data = await res.json();
+            setError(data.message);
+            return;
+    }
+
+    
+    window.location.href = "/login";
     }
 
     
