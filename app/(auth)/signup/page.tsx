@@ -12,11 +12,13 @@ export default function SignupPage() {
         if(!email.includes('@')){
 
             setError("invalid email")
-            return;
+            console.log('invalid email')
+            //return;
         }
         if(password.length<6){
             setError("invalid password");
-            return ;
+            console.log('invalid password')
+            //return ;
         }
         const res=await fetch("/api/auth/signup", {
             method: 'POST', 
@@ -28,7 +30,7 @@ export default function SignupPage() {
          if (!res.ok) {
             const data = await res.json();
             setError(data.message);
-            return;
+           // return;
     }
 
     

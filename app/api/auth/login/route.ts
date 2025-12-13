@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";//send a response from nextjs api route
 import { users } from "@/lib/users";
-
 import bcrypt from "bcryptjs";
+
 
 export async function POST(req: Request) {
     const { email, password } = await req.json();
@@ -13,19 +13,25 @@ export async function POST(req: Request) {
         })
 
     }
-    const existingUser=users.find((u)=>
-        u.email===email
-    )
-    if(existingUser){
+    const user=users.find((u)=>{
+        u.email===email;
+    })
+   if (!user) {
+    return NextResponse.json(
+      { message: "Invalid credentials" },
+      
+    );
+  }
+
+
+    const pass=await bcrypt.compare(password,user.password);
+    if(!pass){
         return NextResponse.json({
-            message:"user already exists"
+            message:"Invalid password"
         })
     }
-
-    const hashedpass=await bcrypt.hash(password,10);
-    users.push({email,password:hashedpass});
-    return NextResponse.json({
-        message:"user created successfully"
-    })
+    return NextResponse.json(
+    { message: "Login successful" },
+  );
 }
 
