@@ -7,6 +7,7 @@ import Sidebar from "..//../components/sidebar";
 import Preview from "..//../components/preview";
 import Gallery from "..//../components/gallery";
 
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -23,7 +24,7 @@ export default function DashboardPage() {
         <Sidebar />
         <Preview />
       </div>
-
+      {/* <AiSuggestion/> */}
       <Gallery />
     </div>
   );

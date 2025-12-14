@@ -25,9 +25,6 @@ export default function LoginPage() {
         setError(data.message || "Invalid credentials");
         return;
       }
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-   
 
       router.push("/dashboard");
     }

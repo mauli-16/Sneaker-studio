@@ -15,6 +15,7 @@ type DesignState = {
   setText: (text: string) => void;
   setMaterial: (material:'Leather'|'Canvas')=>void;
   loadDesign:(design:Design)=>void;
+   
   reset: () => void;
 };
 

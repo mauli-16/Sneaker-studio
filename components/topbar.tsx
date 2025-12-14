@@ -9,12 +9,15 @@ export default function TopBar() {
   const router = useRouter();
   const {color,material,text}=useDesignStore();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
+  const handleLogout=async()=>{
+  await fetch("/api/auth/logout", {
+    method: "POST",
+  });
+  router.push("/login");
+};
 
-  const handleSave = () => {
+
+  const handleSave=()=>{
     const design = {id: crypto.randomUUID(),color,material,text };
     const existing=JSON.parse(localStorage.getItem("designs")||"[]");
     const updated=[...existing,design];
