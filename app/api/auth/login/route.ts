@@ -18,6 +18,7 @@ export async function POST(req: Request) {
    if (!user) {
     return NextResponse.json(
       { message: "Invalid credentials" },
+      { status: 401 }
       
     );
   }
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     if(!pass){
         return NextResponse.json({
             message:"Invalid password"
-        })
+        },{ status: 401 })
     }
     const token = jwt.sign({ email: user.email },process.env.JWT_SECRET!,{ expiresIn: "1h" });
 
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
       message: "Login successful"});
     response.cookies.set("token", token, {
     httpOnly: true,
-    secure: true, 
+    secure: process.env.NODE_ENV === "production", 
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60, 
