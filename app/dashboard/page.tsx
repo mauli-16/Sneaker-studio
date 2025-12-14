@@ -19,12 +19,12 @@ export default function DashboardPage() {
     <div className="h-screen flex flex-col">
       <TopBar />
 
-      {/* <div className="flex flex-1">
+      <div className="flex flex-1">
         <Sidebar />
         <Preview />
       </div>
 
-      <Gallery /> */}
+      {/* <Gallery /> */}
     </div>
   );
 }
