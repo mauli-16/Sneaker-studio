@@ -11,6 +11,8 @@ export default function Gallery() {
 
   const [colorFilter, setColorFilter] = useState("all");
   const [materialFilter, setMaterialFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(6);
+
 
   const filteredDesigns = designs.filter((d) => {
     const colorMatch =
@@ -26,6 +28,27 @@ export default function Gallery() {
     if (saved) setDesigns(JSON.parse(saved));
   }, []);
 
+  useEffect(() => {
+  setVisibleCount(6);
+}, [colorFilter, materialFilter]);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 100
+    ) {
+      setVisibleCount((prev) =>
+        Math.min(prev + 6, filteredDesigns.length)
+      );
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [filteredDesigns.length]);
+
+
   const deleteDesign = (id: string) => {
     const updated = designs.filter((d) => d.id !== id);
     setDesigns(updated);
@@ -34,7 +57,7 @@ export default function Gallery() {
 
   return (
     <>
-    <div className="flex gap-4 mb-4">
+    <div className="flex gap-4 mb-4 mt-4">
   <select
     value={colorFilter}
     onChange={(e) => setColorFilter(e.target.value)}
@@ -64,7 +87,7 @@ export default function Gallery() {
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {filteredDesigns.map((design) => (
+        {filteredDesigns.slice(0, visibleCount).map((design) => (
           <div
             key={design.id}
             className="border rounded p-3 space-y-2"
@@ -95,6 +118,7 @@ export default function Gallery() {
             </Button>
           </div>
         ))}
+        
       </div>
     </div>
     </>
