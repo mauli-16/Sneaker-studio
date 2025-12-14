@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
       <div className="flex flex-1">
         <Sidebar />
-        {/* <Preview /> */}
+        <Preview />
       </div>
 
       {/* <Gallery /> */}
