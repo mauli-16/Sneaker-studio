@@ -8,7 +8,7 @@ export default function Preview() {
 
   return (
     <div className="flex-1 flex items-center justify-center bg-gray-100">
-      <div className="relative w-[420px] h-[260px]">
+      <div className="relative w-105 h-65">
         
         <Image src="/shoes.png" alt="Sneaker" fill className="object-contain"/>
 

@@ -13,9 +13,8 @@ export async function POST(req: Request) {
         })
 
     }
-    const user=users.find((u)=>{
-        u.email===email;
-    })
+    const user = users.find((u) => u.email === email);
+
    if (!user) {
     return NextResponse.json(
       { message: "Invalid credentials" },
@@ -25,18 +24,24 @@ export async function POST(req: Request) {
 
 
     const pass=await bcrypt.compare(password,user.password);
+
     if(!pass){
         return NextResponse.json({
             message:"Invalid password"
         })
     }
-      const token = jwt.sign(
-    { email: user.email },
-    process.env.JWT_SECRET!,
-    { expiresIn: "1h" }
-  );
-    return NextResponse.json(
-    { message: "Login successful" },
-  );
+    const token = jwt.sign({ email: user.email },process.env.JWT_SECRET!,{ expiresIn: "1h" });
+
+    const response = NextResponse.json({
+      message: "Login successful"});
+    response.cookies.set("token", token, {
+    httpOnly: true,
+    secure: false, 
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60, 
+  });
+
+  return response;
 }
 

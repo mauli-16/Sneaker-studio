@@ -25,9 +25,6 @@ export default function LoginPage() {
         setError(data.message || "Invalid credentials");
         return;
       }
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-   
 
       router.push("/dashboard");
     }
@@ -56,6 +53,9 @@ export default function LoginPage() {
       <Button type="submit" className="w-full">
         Login
       </Button>
+      <p className="text-sm text-center text-gray-600">Don't have an account?{""}
+        <span onClick={() => router.push("/signup")} className="text-blue-600 cursor-pointer hover:underline">Sign up</span>
+      </p>
     </form>
   );
 }
