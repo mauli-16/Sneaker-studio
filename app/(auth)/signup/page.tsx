@@ -4,7 +4,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { useRouter } from "next/navigation";
+
 export default function SignupPage() {
+    const router=useRouter();
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     const [error,setError]=useState("");
@@ -61,6 +64,9 @@ export default function SignupPage() {
       <Button type="submit" className="w-full">
         Create Account
       </Button>
+      <p className="text-sm text-center text-gray-600">Already have an account?{""}
+        <span onClick={() => router.push("/login")} className="text-blue-600 cursor-pointer hover:underline">Login</span>
+      </p>
     </form>
   );
 }
