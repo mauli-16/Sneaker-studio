@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 
 export async function POST(req: Request) {
     const { email, password } = await req.json();
+    console.log("Users:", users.length, "Looking for:", email, "Found:", !!users.find((u) => u.email === email));
     if (!email || !password) {
         return NextResponse.json({
             message:"missing fields"
