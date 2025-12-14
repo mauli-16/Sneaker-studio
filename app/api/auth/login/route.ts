@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       message: "Login successful"});
     response.cookies.set("token", token, {
     httpOnly: true,
-    secure: false, 
+    secure: true, 
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60, 
