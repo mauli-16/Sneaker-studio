@@ -2,9 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useDesignStore } from "@/app/store/customizerstore";
+import { json } from "stream/consumers";
 
 export default function TopBar() {
   const router = useRouter();
+  const {color,material,text}=useDesignStore();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -12,7 +15,12 @@ export default function TopBar() {
   };
 
   const handleSave = () => {
+    const design = {id: crypto.randomUUID(),color,material,text };
+    const existing=JSON.parse(localStorage.getItem("designs")||"[]");
+    const updated=[...existing,design];
+    localStorage.setItem("designs",JSON.stringify(updated));
     alert("Design saved");
+    
   };
 
   return (
