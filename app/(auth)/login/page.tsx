@@ -27,6 +27,9 @@ export default function LoginPage() {
         setError(data.message || "Invalid credentials");
         return;
       }
+       await res.json(); 
+    router.push("/dashboard");
+    router.refresh(); 
 
       router.push("/dashboard");
     }
