@@ -3,22 +3,30 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  const path = req.nextUrl.pathname;
+  
+  let response: NextResponse;
 
-  if (!token && req.nextUrl.pathname.startsWith("/dashboard")) {
-    console.log("❌ NO TOKEN - Redirecting to /login");
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (!token && path.startsWith("/dashboard")) {
+    response = NextResponse.redirect(new URL("/login", req.url));
+   
+    response.headers.set("X-Debug-Action", "redirect-no-token");
+    response.headers.set("X-Debug-Path", path);
+    return response;
   }
-   if (token && req.nextUrl.pathname === "/login") {
-     console.log("✅ HAS TOKEN on /login - Redirecting to /dashboard");
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+
+  if (token && path === "/login") {
+    response = NextResponse.redirect(new URL("/dashboard", req.url));
+    response.headers.set("X-Debug-Action", "redirect-has-token");
+    return response;
   }
-  console.log("✅ Middleware passed - continuing");
-  return NextResponse.next();
+
+  response = NextResponse.next();
+  response.headers.set("X-Debug-Action", "passed");
+  response.headers.set("X-Debug-Token", token ? "exists" : "missing");
+  return response;
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/login"
-  ],
+  matcher: ["/dashboard/:path*", "/login"],
 };
