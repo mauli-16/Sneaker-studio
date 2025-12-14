@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import TopBar from "..//../components/topbar";
 import Sidebar from "..//../components/sidebar";
@@ -8,15 +9,16 @@ import Preview from "..//../components/preview";
 import Gallery from "..//../components/gallery";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) router.push("/login");
-  }, [router]);
-
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token");
+   if (!token) {
+    redirect("/login");
+  }
   return (
     <div className="h-screen flex flex-col">
       <TopBar />
